@@ -119,3 +119,30 @@ body {
 .logout-button:active {
   transform: translate(2px ,2px);
 }
+
+/* bracket style border for cards */
+.square-btn {
+  position: relative;
+  border: none;
+  background: none;
+}
+
+.square-btn::before,
+.square-btn::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  border: 1px solid #ffffff;
+  content: "";
+}
+
+.square-btn::before {
+  left: 0;
+  border-right-width: 0;
+}
+
+.square-btn::after {
+  right: 0;
+  border-left-width: 0;
+}
