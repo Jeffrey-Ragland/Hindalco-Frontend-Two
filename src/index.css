@@ -132,7 +132,7 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 8px;
+  width: 10px;
   border: 1px solid #ffffff;
   content: "";
 }
