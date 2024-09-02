@@ -4,9 +4,18 @@ import { Link } from "react-router-dom";
 import xymaLogoWhite from "../Assets/xymaLogoWhite.png";
 import hindalcoLogo from "../Assets/hindalcoLogo.png";
 import { ImExit } from "react-icons/im";
-import { MdAutoGraph } from "react-icons/md";
-import { BsThermometerSun } from "react-icons/bs";
-import { FaBell } from "react-icons/fa";
+import {
+  MdAutoGraph,
+  MdSystemSecurityUpdateWarning,
+  MdOutlineUpdate,
+} from "react-icons/md";
+import {
+  BsThermometerSun,
+  BsClipboard2DataFill,
+  BsDatabaseFillCheck,
+} from "react-icons/bs";
+import { FaBell, FaTrashAlt } from "react-icons/fa";
+import { LiaRulerVerticalSolid } from "react-icons/lia";
 import ApexCharts from "react-apexcharts";
 
 const Dashboard = () => {
@@ -324,29 +333,99 @@ const Dashboard = () => {
               <FaBell className="text-xl" />
             </div>
             <div
-              className=" bg-gradient-to-r from-gray-300 via-gray-200 to-gray-100 flex flex-1 text-gray-600 py-1 px-2 overflow-auto rounded-b-md"
+              className=" bg-gradient-to-r from-gray-300 via-gray-200 to-gray-100 flex flex-col gap-2 flex-1 text-gray-800 py-1 px-2 overflow-auto rounded-b-md"
               style={{
                 scrollbarWidth: "thin",
                 scrollbarColor: "#858585 transparent",
               }}
             >
-              notifications section
+              <div className="flex w-full justify-between sticky top-0 mb-2">
+                <div className="text-sm 2xl:text-base font-medium px-2 rounded-sm bg-red-500 text-white">
+                  25&nbsp;Alerts
+                </div>
+                <div>
+                  <FaTrashAlt className="text-red-500 text-xl hover:scale-110 duration-200 cursor-pointer" />
+                </div>
+              </div>
+
+              <div className="border-2 border-red-500 rounded-md p-1 flex justify-around items-center">
+                <div>Sensor 1</div>
+                <div>-</div>
+                <div className="text-red-500 font-medium">98 °C</div>
+                <div>-</div>
+                <div className="text-sm text-gray-600">02:55 pm</div>
+              </div>
+
+              <div className="border-2 border-red-500 rounded-md p-1 flex justify-around items-center">
+                <div>Sensor 5</div>
+                <div>-</div>
+                <div className="text-red-500 font-medium">108 °C</div>
+                <div>-</div>
+                <div className="text-sm text-gray-600">02:43 pm</div>
+              </div>
+
+              <div className="border-2 border-red-500 rounded-md p-1 flex justify-around items-center">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="text-red-500 font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm text-gray-600">01:32 pm</div>
+              </div>
             </div>
           </div>
           <div className="w-[40%] flex flex-col gap-2">
             {/* last update */}
             <div className="h-[15%] flex gap-2">
-              <div className="border border-white w-[80%]">Report Analysis</div>
+              <div className="w-[80%] flex gap-1 justify-around items-center px-2 bg-gradient-to-tr from-green-600 via-green-500 to-green-400 rounded-md">
+                <BsClipboard2DataFill className="text-xl 2xl:text-3xl" />
+                <div>Report Analysis</div>
+              </div>
               <div className="w-[20%] flex justify-center items-center">
-                <div className="border border-white h-8 w-8 2xl:h-12 2xl:w-12 flex justify-center items-center rounded-full">
-                  A
+                <div className="h-9 w-9 2xl:h-12 2xl:w-12 flex justify-center items-center rounded-full bg-red-500">
+                  <MdSystemSecurityUpdateWarning className="text-2xl 2xl:text-3xl" />
                 </div>
               </div>
             </div>
             {/* reports */}
-            <div className="border border-white h-[25%]">Last Update</div>
+            <div className="h-[25%] bg-gradient-to-tr from-gray-200 via-gray-100 to-white flex flex-col justify-evenly rounded-md text-gray-600 p-1">
+              <div className="flex items-center gap-2">
+                <MdOutlineUpdate className="text-2xl 2xl:text-3xl" />
+                <div>Last Updated Data: </div>
+              </div>
+              <div className="text-center text-sm 2xl:text-xl font-medium">
+                02-09-2024 11:45 am
+              </div>
+            </div>
             {/* settings */}
-            <div className="border border-white h-[60%]">Settings</div>
+            <form
+              className="bg-gradient-to-tr from-gray-200 via-gray-100 to-white h-[60%] rounded-md text-gray-600 py-1 px-2 flex flex-col justify-evenly"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <div className="flex items-center justify-center text-red-500">
+                <LiaRulerVerticalSolid className="text-2xl 2xl:text-3xl" />
+                <div>Alert&nbsp;limit</div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div>Current&nbsp;Limit</div>
+                <div className="border border-black py-0.5 px-1 w-full text-sm 2xl:text-base font-medium rounded-sm text-center bg-white">
+                  75 °C
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div>Change&nbsp;Limit</div>
+                <input
+                  type="text"
+                  required
+                  className="border border-black py-0.5 px-1 w-full text-sm 2xl:text-base font-medium rounded-sm focus:outline-none bg-white"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-green-500 hover:scale-[1.03] duration-200 text-white p-1 px-2 rounded-md"
+              >
+                Set
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -400,7 +479,7 @@ const Dashboard = () => {
               }}
             >
               <table className="w-full">
-                <thead className="sticky top-0 text-white text-sm bg-black border border-b-white border-l-transparent border-r-transparent border-t-transparent">
+                <thead className="sticky top-0 text-white text-sm bg-gradient-to-t from-[#000000] via-[#34343b] to-[#4b4a54] border border-b-white border-l-transparent border-r-transparent border-t-transparent">
                   <tr>
                     <th className="px-2">S.No</th>
                     <th className="px-2">S1</th>
