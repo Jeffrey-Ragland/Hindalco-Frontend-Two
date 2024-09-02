@@ -5,7 +5,6 @@ import xymaLogoWhite from "../Assets/xymaLogoWhite.png";
 import hindalcoLogo from "../Assets/hindalcoLogo.png";
 import { ImExit } from "react-icons/im";
 import {
-  MdAutoGraph,
   MdSystemSecurityUpdateWarning,
   MdOutlineUpdate,
 } from "react-icons/md";
@@ -17,14 +16,50 @@ import {
 import { FaBell } from "react-icons/fa";
 import { LiaRulerVerticalSolid } from "react-icons/lia";
 import { IoTrashOutline } from "react-icons/io5";
+import { TbTrendingUp } from "react-icons/tb";
 import ApexCharts from "react-apexcharts";
 
-const Dashboard = () => {
+const Dashboard = ({ dataFromApp }) => {
+
+  console.log("data from app", dataFromApp);
+
+  // line chart limit
+  const getInitialLimit = () => {
+    const storedLimit = localStorage.getItem("HindalcoLimit");
+    return storedLimit ? parseInt(storedLimit) : 100;
+  };
+
+  const [hindalcoLimit, setHindalcoLimit] = useState(getInitialLimit);
+
+  const handleLineLimit = (e) => {
+    const limit = parseInt(e.target.value);
+    setHindalcoLimit(limit);
+    localStorage.setItem("HindalcoLimit", limit.toString());
+  };
+
+  const chartRef = useRef({ min: null, max: null });
 
   // line chart
   const lineOptions = {
     chart: {
       id: "line-chart",
+      // zoom: {
+      //   autoScaleYaxis: true,
+      // },
+      events: {
+        zoomed: (chartContext, { xaxis }) => {
+          chartRef.current.min = xaxis.min;
+          chartRef.current.max = xaxis.max;
+        },
+        scrolled: (chartContext, { xaxis }) => {
+          chartRef.current.min = xaxis.min;
+          chartRef.current.max = xaxis.max;
+        },
+        beforeResetZoom: () => {
+          chartRef.current.min = null;
+          chartRef.current.max = null;
+        },
+      },
     },
     xaxis: {
       categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -33,6 +68,8 @@ const Dashboard = () => {
           colors: "#FFFFFF",
         },
       },
+      min: chartRef.current.min !== null ? chartRef.current.min : undefined,
+      max: chartRef.current.max !== null ? chartRef.current.max : undefined,
     },
     yaxis: {
       labels: {
@@ -53,10 +90,10 @@ const Dashboard = () => {
     },
     tooltip: {
       enabled: true,
-      theme: 'dark',
+      theme: "dark",
       marker: {
-        show: true
-      }
+        show: true,
+      },
     },
   };
 
@@ -125,31 +162,6 @@ const Dashboard = () => {
     },
   ];
 
-  // static table data
-  const tableData = [
-  { sNo: 1, s1: 45, s2: 67, s3: 23, s4: 89, s5: 12, s6: 34, s7: 56, s8: 78, s9: 90, s10: 21, s11: 43, s12: 65, s13: 87, s14: 34, s15: 76, LastUpdated: '20240831T080000Z' },
-  { sNo: 2, s1: 54, s2: 72, s3: 31, s4: 85, s5: 19, s6: 39, s7: 62, s8: 80, s9: 95, s10: 25, s11: 48, s12: 66, s13: 82, s14: 29, s15: 74, LastUpdated: '20240831T080000Z' },
-  { sNo: 3, s1: 63, s2: 81, s3: 29, s4: 92, s5: 17, s6: 31, s7: 58, s8: 83, s9: 87, s10: 28, s11: 51, s12: 71, s13: 78, s14: 33, s15: 68, LastUpdated: '20240831T100000Z' },
-  { sNo: 4, s1: 72, s2: 90, s3: 25, s4: 88, s5: 14, s6: 36, s7: 63, s8: 77, s9: 85, s10: 30, s11: 54, s12: 75, s13: 91, s14: 40, s15: 81, LastUpdated: '20240831T110000Z' },
-  { sNo: 5, s1: 51, s2: 68, s3: 32, s4: 79, s5: 21, s6: 41, s7: 60, s8: 82, s9: 94, s10: 23, s11: 47, s12: 69, s13: 85, s14: 37, s15: 77, LastUpdated: '20240831T120000Z' },
-  { sNo: 6, s1: 60, s2: 76, s3: 28, s4: 90, s5: 18, s6: 38, s7: 65, s8: 79, s9: 88, s10: 26, s11: 52, s12: 72, s13: 82, s14: 42, s15: 73, LastUpdated: '20240831T130000Z' },
-  { sNo: 7, s1: 47, s2: 64, s3: 30, s4: 87, s5: 22, s6: 33, s7: 57, s8: 81, s9: 93, s10: 20, s11: 50, s12: 68, s13: 80, s14: 35, s15: 71, LastUpdated: '20240831T140000Z' },
-  { sNo: 8, s1: 56, s2: 73, s3: 27, s4: 84, s5: 25, s6: 40, s7: 62, s8: 78, s9: 89, s10: 29, s11: 46, s12: 70, s13: 83, s14: 39, s15: 66, LastUpdated: '20240831T150000Z' },
-  { sNo: 9, s1: 65, s2: 82, s3: 24, s4: 91, s5: 20, s6: 35, s7: 66, s8: 77, s9: 90, s10: 22, s11: 49, s12: 74, s13: 88, s14: 38, s15: 79, LastUpdated: '20240831T160000Z' },
-  { sNo: 10, s1: 74, s2: 89, s3: 26, s4: 86, s5: 23, s6: 37, s7: 69, s8: 82, s9: 94, s10: 27, s11: 53, s12: 76, s13: 91, s14: 41, s15: 84, LastUpdated: '20240831T170000Z' },
-  { sNo: 11, s1: 53, s2: 78, s3: 30, s4: 88, s5: 27, s6: 41, s7: 67, s8: 79, s9: 85, s10: 24, s11: 56, s12: 72, s13: 80, s14: 36, s15: 70, LastUpdated: '20240831T180000Z' },
-  { sNo: 12, s1: 62, s2: 87, s3: 33, s4: 92, s5: 25, s6: 39, s7: 60, s8: 81, s9: 90, s10: 28, s11: 59, s12: 74, s13: 83, s14: 32, s15: 75, LastUpdated: '20240831T190000Z' },
-  { sNo: 13, s1: 71, s2: 92, s3: 29, s4: 87, s5: 30, s6: 34, s7: 68, s8: 79, s9: 89, s10: 31, s11: 62, s12: 76, s13: 81, s14: 41, s15: 77, LastUpdated: '20240831T200000Z' },
-  { sNo: 14, s1: 80, s2: 95, s3: 32, s4: 84, s5: 22, s6: 37, s7: 65, s8: 82, s9: 88, s10: 30, s11: 55, s12: 71, s13: 79, s14: 40, s15: 72, LastUpdated: '20240831T210000Z' },
-  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
-  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
-  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
-  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
-  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
-  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
-];
-
-
   return (
     <div className="xl:h-screen px-4 py-2 text-white 2xl:text-2xl flex flex-col">
       {/* top bar - h-[10%] */}
@@ -197,10 +209,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 1</div>
-              <div className="text-2xl 2xl:text-4xl">54°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S1}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -208,10 +222,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 2</div>
-              <div className="text-2xl 2xl:text-4xl">44°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S2}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -219,10 +235,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 3</div>
-              <div className="text-2xl 2xl:text-4xl">65°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S3}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -230,10 +248,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 4</div>
-              <div className="text-2xl 2xl:text-4xl">62°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S4}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -241,10 +261,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 5</div>
-              <div className="text-2xl 2xl:text-4xl">23°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S5}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -252,10 +274,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 6</div>
-              <div className="text-2xl 2xl:text-4xl">87°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S6}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -263,10 +287,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 7</div>
-              <div className="text-2xl 2xl:text-4xl">32°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S7}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -274,10 +300,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 8</div>
-              <div className="text-2xl 2xl:text-4xl">54°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S8}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -285,10 +313,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 9</div>
-              <div className="text-2xl 2xl:text-4xl">59°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S9}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -296,10 +326,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 10</div>
-              <div className="text-2xl 2xl:text-4xl">31°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S10}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -307,10 +339,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 11</div>
-              <div className="text-2xl 2xl:text-4xl">99°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S11}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
@@ -318,10 +352,12 @@ const Dashboard = () => {
             <BsThermometerSun className="text-4xl 2xl:text-5xl" />
             <div>
               <div className="text-center">Sensor 12</div>
-              <div className="text-2xl 2xl:text-4xl">74°C</div>
+              <div className="text-2xl 2xl:text-4xl">
+                {dataFromApp.length > 0 && dataFromApp[0].S12}°C
+              </div>
             </div>
-            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <TbTrendingUp className="text-xl 2xl:text-3xl" />
             </div>
           </div>
         </div>
@@ -453,7 +489,7 @@ const Dashboard = () => {
                 <div>Last Updated Data: </div>
               </div>
               <div className="text-center text-sm 2xl:text-xl">
-                02-09-2024 11:45 am
+                {dataFromApp.length > 0 && new Date(dataFromApp[0].createdAt).toLocaleString("en-GB")}
               </div>
             </div>
 
@@ -501,10 +537,12 @@ const Dashboard = () => {
               <BsThermometerSun className="text-4xl 2xl:text-5xl" />
               <div>
                 <div className="text-center">Sensor 13</div>
-                <div className="text-2xl 2xl:text-4xl">43°C</div>
+                <div className="text-2xl 2xl:text-4xl">
+                  {dataFromApp.length > 0 && dataFromApp[0].S13}°C
+                </div>
               </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
+              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+                <TbTrendingUp className="text-xl 2xl:text-3xl" />
               </div>
             </div>
 
@@ -512,10 +550,12 @@ const Dashboard = () => {
               <BsThermometerSun className="text-4xl 2xl:text-5xl" />
               <div>
                 <div className="text-center">Sensor 14</div>
-                <div className="text-2xl 2xl:text-4xl">10°C</div>
+                <div className="text-2xl 2xl:text-4xl">
+                  {dataFromApp.length > 0 && dataFromApp[0].S14}°C
+                </div>
               </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
+              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+                <TbTrendingUp className="text-xl 2xl:text-3xl" />
               </div>
             </div>
 
@@ -523,10 +563,12 @@ const Dashboard = () => {
               <BsThermometerSun className="text-4xl 2xl:text-5xl" />
               <div>
                 <div className="text-center">Sensor 15</div>
-                <div className="text-2xl 2xl:text-4xl">32°C</div>
+                <div className="text-2xl 2xl:text-4xl">
+                  {dataFromApp.length > 0 && dataFromApp[0].S15}°C
+                </div>
               </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
+              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-blue-900 via-blue-700 to-blue-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+                <TbTrendingUp className="text-xl 2xl:text-3xl" />
               </div>
             </div>
           </div>
@@ -543,48 +585,58 @@ const Dashboard = () => {
               <table className="w-full">
                 <thead className="sticky top-0 text-white text-sm bg-gradient-to-t from-[#000000] via-[#34343b] to-[#4b4a54] border border-b-white border-l-transparent border-r-transparent border-t-transparent">
                   <tr>
-                    <th className="px-2">S.No</th>
-                    <th className="px-2">S1</th>
-                    <th className="px-2">S2</th>
-                    <th className="px-2">S3</th>
-                    <th className="px-2">S4</th>
-                    <th className="px-2">S5</th>
-                    <th className="px-2">S6</th>
-                    <th className="px-2">S7</th>
-                    <th className="px-2">S8</th>
-                    <th className="px-2">S9</th>
-                    <th className="px-2">S10</th>
-                    <th className="px-2">S11</th>
-                    <th className="px-2">S12</th>
-                    <th className="px-2">S13</th>
-                    <th className="px-2">S14</th>
-                    <th className="px-2">S15</th>
-                    <th className="px-2">Last&nbsp;Updated</th>
+                    <th className="px-4">S.No</th>
+                    <th className="px-4">S1</th>
+                    <th className="px-4">S2</th>
+                    <th className="px-4">S3</th>
+                    <th className="px-4">S4</th>
+                    <th className="px-4">S5</th>
+                    <th className="px-4">S6</th>
+                    <th className="px-4">S7</th>
+                    <th className="px-4">S8</th>
+                    <th className="px-4">S9</th>
+                    <th className="px-4">S10</th>
+                    <th className="px-4">S11</th>
+                    <th className="px-4">S12</th>
+                    <th className="px-4">S13</th>
+                    <th className="px-4">S14</th>
+                    <th className="px-4">S15</th>
+                    <th className="px-4">Last&nbsp;Updated</th>
                   </tr>
                 </thead>
 
                 <tbody className="text-[10px] 2xl:text-base ">
-                  {tableData.map((row, i) => (
-                    <tr key={row.i} className={`${i % 2 === 0 ? "" : ""}`}>
-                      <td>{row.sNo}</td>
-                      <td>{row.s1}</td>
-                      <td>{row.s2}</td>
-                      <td>{row.s3}</td>
-                      <td>{row.s4}</td>
-                      <td>{row.s5}</td>
-                      <td>{row.s6}</td>
-                      <td>{row.s7}</td>
-                      <td>{row.s8}</td>
-                      <td>{row.s9}</td>
-                      <td>{row.s10}</td>
-                      <td>{row.s11}</td>
-                      <td>{row.s12}</td>
-                      <td>{row.s13}</td>
-                      <td>{row.s14}</td>
-                      <td>{row.s15}</td>
-                      <td>{row.LastUpdated}</td>
-                    </tr>
-                  ))}
+                  {dataFromApp.length > 0 &&
+                    dataFromApp.map((data, index) => (
+                      <tr
+                        key={index}
+                        // className={`${
+                        //   index % 2 === 0
+                        //     ? ""
+                        //     : "bg-gradient-to-r from-[#96b5e3] via-[#afc7f0] to-[#bcd5f7]"
+                        // }`}
+                      >
+                        <td>{index + 1}</td>
+                        <td>{data.S1}°C</td>
+                        <td>{data.S2}°C</td>
+                        <td>{data.S3}°C</td>
+                        <td>{data.S4}°C</td>
+                        <td>{data.S5}°C</td>
+                        <td>{data.S6}°C</td>
+                        <td>{data.S7}°C</td>
+                        <td>{data.S8}°C</td>
+                        <td>{data.S9}°C</td>
+                        <td>{data.S10}°C</td>
+                        <td>{data.S11}°C</td>
+                        <td>{data.S12}°C</td>
+                        <td>{data.S13}°C</td>
+                        <td>{data.S14}°C</td>
+                        <td>{data.S15}°C</td>
+                        <td>
+                          {new Date(data.createdAt).toLocaleString("en-GB")}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -600,17 +652,76 @@ const Dashboard = () => {
           </div>
         </div>
         {/* right side */}
-        <div className="border border-white w-full xl:w-[55%] mt-4 ml-0 xl:ml-2 2xl:mt-4 2xl:ml-4 overflow-hidden p-1 h-[300px] xl:h-auto">
-          <ApexCharts
-            options={lineOptions}
-            series={lineSeries}
-            type="line"
-            height="100%"
-          />
+        <div className="border border-white w-full xl:w-[55%] mt-4 ml-0 xl:ml-2 2xl:mt-4 2xl:ml-4 overflow-hidden p-1 h-[300px] xl:h-auto flex flex-col">
+          <div className="flex justify-between">
+            <button className="border border-white ">Expand</button>
+            <div
+              className={`flex items-center px-2 py-1 font-medium 
+              }`}
+            >
+              <div className="mr-2 font-normal">Set Data Limit:</div>
+              <input
+                type="radio"
+                id="option1"
+                name="options"
+                value={100}
+                checked={hindalcoLimit === 100}
+                className="cursor-pointer"
+                onChange={handleLineLimit}
+              />
+              <label htmlFor="option1" className="mr-2 cursor-pointer">
+                100 Data
+              </label>
+              <input
+                type="radio"
+                id="option2"
+                name="options"
+                value={300}
+                checked={hindalcoLimit === 300}
+                className="cursor-pointer"
+                onChange={handleLineLimit}
+              />
+              <label htmlFor="option2" className="mr-2 cursor-pointer">
+                300 Data
+              </label>
+              <input
+                type="radio"
+                id="option3"
+                name="options"
+                value={500}
+                checked={hindalcoLimit === 500}
+                className="cursor-pointer"
+                onChange={handleLineLimit}
+              />
+              <label htmlFor="option3" className="mr-2 cursor-pointer">
+                500 Data
+              </label>
+              <input
+                type="radio"
+                id="option4"
+                name="options"
+                value={1000}
+                checked={hindalcoLimit === 1000}
+                className="cursor-pointer"
+                onChange={handleLineLimit}
+              />
+              <label htmlFor="option4" className="mr-2 cursor-pointer">
+                1000 Data
+              </label>
+            </div>
+          </div>
+          <div className="flex-1">
+            <ApexCharts
+              options={lineOptions}
+              series={lineSeries}
+              type="line"
+              height="100%"
+            />
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard
