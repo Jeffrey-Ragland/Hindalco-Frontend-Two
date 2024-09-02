@@ -14,8 +14,9 @@ import {
   BsClipboard2DataFill,
   BsDatabaseFillCheck,
 } from "react-icons/bs";
-import { FaBell, FaTrashAlt } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 import { LiaRulerVerticalSolid } from "react-icons/lia";
+import { IoTrashOutline } from "react-icons/io5";
 import ApexCharts from "react-apexcharts";
 
 const Dashboard = () => {
@@ -41,7 +42,7 @@ const Dashboard = () => {
       },
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
       width: 1.5,
     },
     grid: {
@@ -141,13 +142,18 @@ const Dashboard = () => {
   { sNo: 13, s1: 71, s2: 92, s3: 29, s4: 87, s5: 30, s6: 34, s7: 68, s8: 79, s9: 89, s10: 31, s11: 62, s12: 76, s13: 81, s14: 41, s15: 77, LastUpdated: '20240831T200000Z' },
   { sNo: 14, s1: 80, s2: 95, s3: 32, s4: 84, s5: 22, s6: 37, s7: 65, s8: 82, s9: 88, s10: 30, s11: 55, s12: 71, s13: 79, s14: 40, s15: 72, LastUpdated: '20240831T210000Z' },
   { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
+  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
+  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
+  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
+  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
+  { sNo: 15, s1: 49, s2: 66, s3: 28, s4: 86, s5: 26, s6: 42, s7: 71, s8: 79, s9: 93, s10: 29, s11: 57, s12: 74, s13: 82, s14: 37, s15: 80, LastUpdated: '20240831T220000Z' },
 ];
 
 
   return (
     <div className="xl:h-screen px-4 py-2 text-white 2xl:text-2xl flex flex-col">
       {/* top bar - h-[10%] */}
-      <div className="flex justify-between items-center mb-2 2xl:mb-4 h-[10%]">
+      <div className="flex justify-between items-center mb-4 xl:mb-2 2xl:mb-4 xl:h-[10%]">
         {/* xyma logo */}
         <div>
           <img
@@ -157,7 +163,7 @@ const Dashboard = () => {
           />
         </div>
         {/* title */}
-        <div className="text-sm md:text-2xl font-medium text-center">
+        <div className="text-xs md:text-2xl font-medium text-center">
           Temperature Measurement
         </div>
         {/* hindalco logo , logout */}
@@ -184,234 +190,289 @@ const Dashboard = () => {
       </div>
 
       {/* main content 1 - h-[45%] */}
-      <div className="h-[45%] flex gap-2 2xl:gap-4">
+      <div className="xl:h-[45%] flex flex-col-reverse xl:flex-row gap-2 2xl:gap-4">
         {/* 12 cards */}
-        <div className="w-[60%] flex flex-col gap-4">
-          <div className="flex gap-4 h-1/3">
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 1</div>
-                <div className="text-2xl 2xl:text-4xl">54°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+        <div className="w-full xl:w-[60%] grid grid-cols-2 md:grid-cols-4 gap-6 md:mt-4 xl:mt-0">
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 1</div>
+              <div className="text-2xl 2xl:text-4xl">54°C</div>
             </div>
-
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 2</div>
-                <div className="text-2xl 2xl:text-4xl">44°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
-            </div>
-
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 3</div>
-                <div className="text-2xl 2xl:text-4xl">65°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
-            </div>
-
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 4</div>
-                <div className="text-2xl 2xl:text-4xl">62°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
-          <div className="flex gap-4 h-1/3">
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 5</div>
-                <div className="text-2xl 2xl:text-4xl">23°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 2</div>
+              <div className="text-2xl 2xl:text-4xl">44°C</div>
             </div>
-
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 6</div>
-                <div className="text-2xl 2xl:text-4xl">87°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
-            </div>
-
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 7</div>
-                <div className="text-2xl 2xl:text-4xl">32°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
-            </div>
-
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 8</div>
-                <div className="text-2xl 2xl:text-4xl">54°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
             </div>
           </div>
 
-          <div className="flex gap-4 h-1/3">
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 9</div>
-                <div className="text-2xl 2xl:text-4xl">59°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 3</div>
+              <div className="text-2xl 2xl:text-4xl">65°C</div>
             </div>
-
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 10</div>
-                <div className="text-2xl 2xl:text-4xl">31°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
             </div>
+          </div>
 
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 11</div>
-                <div className="text-2xl 2xl:text-4xl">99°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 4</div>
+              <div className="text-2xl 2xl:text-4xl">62°C</div>
             </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
 
-            <div className="square-btn w-1/4 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
-              <BsThermometerSun className="text-4xl 2xl:text-5xl" />
-              <div>
-                <div className="text-center">Sensor 12</div>
-                <div className="text-2xl 2xl:text-4xl">74°C</div>
-              </div>
-              <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
-                <MdAutoGraph className="text-xl 2xl:text-3xl" />
-              </div>
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 5</div>
+              <div className="text-2xl 2xl:text-4xl">23°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
+
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 6</div>
+              <div className="text-2xl 2xl:text-4xl">87°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
+
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 7</div>
+              <div className="text-2xl 2xl:text-4xl">32°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
+
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 8</div>
+              <div className="text-2xl 2xl:text-4xl">54°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
+
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 9</div>
+              <div className="text-2xl 2xl:text-4xl">59°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
+
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 10</div>
+              <div className="text-2xl 2xl:text-4xl">31°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
+
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 11</div>
+              <div className="text-2xl 2xl:text-4xl">99°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
+            </div>
+          </div>
+
+          <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <BsThermometerSun className="text-4xl 2xl:text-5xl" />
+            <div>
+              <div className="text-center">Sensor 12</div>
+              <div className="text-2xl 2xl:text-4xl">74°C</div>
+            </div>
+            <div className="absolute right-1 bottom-1 2xl:right-2 2xl:bottom-2 bg-gradient-to-tr from-green-700 via-green-500 to-green-400 rounded-sm hover:scale-110 duration-200 cursor-pointer">
+              <MdAutoGraph className="text-xl 2xl:text-3xl" />
             </div>
           </div>
         </div>
-        <div className="w-[40%] flex gap-2">
+
+        <div className="w-full xl:w-[40%] flex flex-col md:flex-row gap-4 xl:gap-2">
           {/* alert box */}
-          <div className=" w-[60%] flex flex-col rounded-md">
+          <div className="w-full md:w-[60%] h-[300px] xl:h-auto flex flex-col rounded-md ml-0 xl:ml-2">
             <div className="flex justify-between rounded-t-md items-center bg-gradient-to-r from-[#000000] via-[#34343b] to-[#4b4a54] py-1 px-2">
               <div>Alerts</div>
               <FaBell className="text-xl" />
             </div>
             <div
-              className=" bg-gradient-to-r from-gray-300 via-gray-200 to-gray-100 flex flex-col gap-2 flex-1 text-gray-800 py-1 px-2 overflow-auto rounded-b-md"
+              className=" bg-gradient-to-r from-gray-300 via-gray-100 to-white flex flex-col flex-1 text-gray-800 px-2 overflow-auto rounded-b-md"
               style={{
                 scrollbarWidth: "thin",
-                scrollbarColor: "#858585 transparent",
+                scrollbarColor: "#D1D5DB transparent",
               }}
             >
-              <div className="flex w-full justify-between sticky top-0 mb-2">
-                <div className="text-sm 2xl:text-base font-medium px-2 rounded-sm bg-red-500 text-white">
+              <div className="flex w-full justify-between items-center sticky bg-gradient-to-r from-gray-300 via-gray-100 to-white top-0 mb-2 xl:mb-4 py-1">
+                <div className="text-sm 2xl:text-base font-bold px-2 rounded-sm border-[1.5px] border-red-500 text-red-500">
                   25&nbsp;Alerts
                 </div>
                 <div>
-                  <FaTrashAlt className="text-red-500 text-xl hover:scale-110 duration-200 cursor-pointer" />
+                  <IoTrashOutline className="text-red-500 text-2xl 2xl:text-3xl hover:scale-110 duration-200 cursor-pointer" />
                 </div>
               </div>
 
-              <div className="border-2 border-red-500 rounded-md p-1 flex justify-around items-center">
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
                 <div>Sensor 1</div>
                 <div>-</div>
-                <div className="text-red-500 font-medium">98 °C</div>
+                <div className="font-medium">98 °C</div>
                 <div>-</div>
-                <div className="text-sm text-gray-600">02:55 pm</div>
+                <div className="text-sm">02:55 pm</div>
               </div>
 
-              <div className="border-2 border-red-500 rounded-md p-1 flex justify-around items-center">
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
                 <div>Sensor 5</div>
                 <div>-</div>
-                <div className="text-red-500 font-medium">108 °C</div>
+                <div className="font-medium">108 °C</div>
                 <div>-</div>
-                <div className="text-sm text-gray-600">02:43 pm</div>
+                <div className="text-sm">02:43 pm</div>
               </div>
 
-              <div className="border-2 border-red-500 rounded-md p-1 flex justify-around items-center">
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
                 <div>Sensor 15</div>
                 <div>-</div>
-                <div className="text-red-500 font-medium">110 °C</div>
+                <div className="font-medium">110 °C</div>
                 <div>-</div>
-                <div className="text-sm text-gray-600">01:32 pm</div>
+                <div className="text-sm">01:32 pm</div>
+              </div>
+
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm">01:32 pm</div>
+              </div>
+
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm">01:32 pm</div>
+              </div>
+
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm">01:32 pm</div>
+              </div>
+
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm">01:32 pm</div>
+              </div>
+
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm">01:32 pm</div>
+              </div>
+
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm">01:32 pm</div>
+              </div>
+
+              <div className="rounded-md bg-gradient-to-tr from-red-700 via-red-600 to-red-400 p-1 flex justify-around items-center text-white mb-2">
+                <div>Sensor 15</div>
+                <div>-</div>
+                <div className="font-medium">110 °C</div>
+                <div>-</div>
+                <div className="text-sm">01:32 pm</div>
               </div>
             </div>
           </div>
-          <div className="w-[40%] flex flex-col gap-2">
-            {/* last update */}
-            <div className="h-[15%] flex gap-2">
-              <div className="w-[80%] flex gap-1 justify-around items-center px-2 bg-gradient-to-tr from-green-600 via-green-500 to-green-400 rounded-md">
+          <div className="w-full md:w-[40%] flex flex-col gap-2">
+            <div className="md:h-[15%] flex gap-2">
+              {/* reports */}
+              <div className="w-[80%] flex gap-1 justify-center md:justify-around items-center px-2 bg-gradient-to-tr from-green-600 via-green-500 to-green-400 rounded-md hover:scale-105 cursor-pointer duration-200 font-medium">
                 <BsClipboard2DataFill className="text-xl 2xl:text-3xl" />
-                <div>Report Analysis</div>
+                <div>Report&nbsp;Analysis</div>
               </div>
+
+              {/* activity status */}
               <div className="w-[20%] flex justify-center items-center">
                 <div className="h-9 w-9 2xl:h-12 2xl:w-12 flex justify-center items-center rounded-full bg-red-500">
                   <MdSystemSecurityUpdateWarning className="text-2xl 2xl:text-3xl" />
                 </div>
               </div>
             </div>
-            {/* reports */}
-            <div className="h-[25%] bg-gradient-to-tr from-gray-200 via-gray-100 to-white flex flex-col justify-evenly rounded-md text-gray-600 p-1">
-              <div className="flex items-center gap-2">
+
+            {/* last update */}
+            <div className="md:h-[25%] bg-gradient-to-tr from-gray-200 via-gray-100 to-white flex flex-row items-center md:flex-col justify-evenly rounded-md text-gray-600 p-1 mb-4 md:mb-0">
+              <div className="flex items-center gap-2 font-medium">
                 <MdOutlineUpdate className="text-2xl 2xl:text-3xl" />
                 <div>Last Updated Data: </div>
               </div>
-              <div className="text-center text-sm 2xl:text-xl font-medium">
+              <div className="text-center text-sm 2xl:text-xl">
                 02-09-2024 11:45 am
               </div>
             </div>
+
             {/* settings */}
             <form
-              className="bg-gradient-to-tr from-gray-200 via-gray-100 to-white h-[60%] rounded-md text-gray-600 py-1 px-2 flex flex-col justify-evenly"
+              className="bg-gradient-to-tr from-gray-200 via-gray-100 to-white h-[200px] md:h-[60%] rounded-md text-gray-600 py-1 px-4 md:px-2 flex flex-col justify-evenly mb-4 md:mb-0"
               onSubmit={(e) => e.preventDefault()}
             >
               <div className="flex items-center justify-center text-red-500">
                 <LiaRulerVerticalSolid className="text-2xl 2xl:text-3xl" />
-                <div>Alert&nbsp;limit</div>
+                <div className="font-medium">Alert&nbsp;limit</div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-sm 2xl:text-xl">
                 <div>Current&nbsp;Limit</div>
                 <div className="border border-black py-0.5 px-1 w-full text-sm 2xl:text-base font-medium rounded-sm text-center bg-white">
                   75 °C
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-sm 2xl:text-xl">
                 <div>Change&nbsp;Limit</div>
                 <input
                   type="text"
@@ -421,7 +482,7 @@ const Dashboard = () => {
               </div>
               <button
                 type="submit"
-                className="bg-green-500 hover:scale-[1.03] duration-200 text-white p-1 px-2 rounded-md"
+                className="bg-gradient-to-tr from-green-600 via-green-500 to-green-400 hover:scale-[1.03] duration-200 text-white p-1 px-2 rounded-md"
               >
                 Set
               </button>
@@ -431,12 +492,12 @@ const Dashboard = () => {
       </div>
 
       {/* main content 2 - h-[45%] */}
-      <div className="h-[45%] flex">
+      <div className="xl:h-[45%] flex flex-col xl:flex-row gap-2 md:gap-0">
         {/* left side */}
-        <div className="w-[45%] flex flex-col gap-2 2xl:gap-4 mt-4">
+        <div className="w-full xl:w-[45%] flex flex-col gap-4 xl:gap-2 2xl:gap-4 mt-6">
           {/* 3 cards */}
-          <div className="h-1/3 flex gap-4">
-            <div className="square-btn w-1/3 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+          <div className="xl:h-1/3 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-3 gap-6 mr-0 md:mr-2 ">
+            <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
               <BsThermometerSun className="text-4xl 2xl:text-5xl" />
               <div>
                 <div className="text-center">Sensor 13</div>
@@ -447,7 +508,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="square-btn w-1/3 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
               <BsThermometerSun className="text-4xl 2xl:text-5xl" />
               <div>
                 <div className="text-center">Sensor 14</div>
@@ -458,7 +519,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="square-btn w-1/3 py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
+            <div className="square-btn  py-1 px-2 text-sm 2xl:text-lg flex items-center justify-center gap-1">
               <BsThermometerSun className="text-4xl 2xl:text-5xl" />
               <div>
                 <div className="text-center">Sensor 15</div>
@@ -469,10 +530,11 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="h-2/3 flex gap-2 2xl:gap-4 ">
+
+          <div className="xl:h-2/3 flex flex-col-reverse md:flex-row gap-4 xl:gap-2 2xl:gap-4 ">
             {/* table */}
             <div
-              className="w-1/2 overflow-auto text-center border border-white "
+              className="w-full md:w-1/2 h-[300px] xl:h-auto overflow-auto text-center border border-white mt-2"
               style={{
                 scrollbarWidth: "thin",
                 scrollbarColor: "#858585 transparent",
@@ -527,7 +589,7 @@ const Dashboard = () => {
               </table>
             </div>
             {/* bar */}
-            <div className="border border-white w-1/2 overflow-hidden p-1">
+            <div className="border border-white w-full md:w-1/2 overflow-hidden p-1 mt-2 mr-2 h-[300px] xl:h-auto">
               <ApexCharts
                 options={barOptions}
                 series={barSeries}
@@ -538,7 +600,7 @@ const Dashboard = () => {
           </div>
         </div>
         {/* right side */}
-        <div className="border border-white w-[55%] mt-2 ml-2 2xl:mt-4 2xl:ml-4 overflow-hidden p-1">
+        <div className="border border-white w-full xl:w-[55%] mt-4 ml-0 xl:ml-2 2xl:mt-4 2xl:ml-4 overflow-hidden p-1 h-[300px] xl:h-auto">
           <ApexCharts
             options={lineOptions}
             series={lineSeries}
