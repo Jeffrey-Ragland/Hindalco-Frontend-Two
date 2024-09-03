@@ -2,9 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* body {
   background-image: linear-gradient(to right top, #000000, #0c0b0b, #141314, #1b191a, #211f21, #2d2b2d, #3a383a, #474548, #5e5d5f, #777678, #909091, #ababab);
-}
+} */
+
+/* body {
+  background-image: linear-gradient(to right, #0e1218, #11151b, #191e25, #252b33, #3d4653, #434d5a, #495362, #4f5a69, #525e6d, #626e80, #6b798d, #6b798b);
+} */
+
+/* body {
+  background-image: linear-gradient(to right top, #9f6d1f, #aa7729, #b48032, #bf8a3c, #ca9445, #d29d4d, #dba556, #e3ae5e, #eab868, #f1c272, #f8cd7c, #ffd786);
+} */
+
+
+
 
 /* login button -> login page */ 
 .login-button {
@@ -182,17 +193,3 @@ body {
   font-size: 10px !important; 
 }
 
-.apexcharts-legend {
-  border: 1px solid white; /* Border around the legend */
-  display: grid; /* Use grid layout */
-  grid-template-columns: repeat(2, 1fr); /* Create a 2-column grid */
-  gap: 10px; /* Space between grid items */
-  padding: 10px; /* Padding inside the legend container */
-  max-width: 300px;
-  height: 100px; /* Adjust width as needed */
-}
-
-/* Style for each legend item */
-.apexcharts-legend-series {
-  grid-column: span 1; /* Each item spans 1 column */
-}

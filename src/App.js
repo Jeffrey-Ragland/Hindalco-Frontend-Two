@@ -5,7 +5,7 @@ import Login from './Components/Pages/Login';
 import Dashboard from "./Components/Pages/Dashboard";
 import ProtectedRoute from "./Components/Pages/ProtectedRoute";
 import { Route, Routes } from "react-router-dom";
-
+import MainPage from './Components/Pages/MainPage';
 
 const App = () => {
 
@@ -32,11 +32,11 @@ const App = () => {
   useEffect(() => {
     getHindalcoData();
 
-    const hindalcoInterval = setInterval(getHindalcoData, 2000);
+    // const hindalcoInterval = setInterval(getHindalcoData, 2000);
 
-    return () => {
-      clearInterval(hindalcoInterval);
-    };
+    // return () => {
+    //   clearInterval(hindalcoInterval);
+    // };
   }, []);
 
   // get data api
@@ -65,6 +65,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Dashboard dataFromApp={hindalcoData} />} />
+          <Route path='MainPage' element={<MainPage />} />
         </Route>
       </Routes>
     </>
