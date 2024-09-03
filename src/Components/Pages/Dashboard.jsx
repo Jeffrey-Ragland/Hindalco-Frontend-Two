@@ -21,7 +21,129 @@ import ApexCharts from "react-apexcharts";
 
 const Dashboard = ({ dataFromApp }) => {
 
-  console.log("data from app", dataFromApp);
+  // console.log("data from app", dataFromApp);
+  const legendRef = useRef(null);
+  // bar chart options
+  const [barData, setBarData] = useState({
+    series: [],
+    options: {
+      chart: {
+        type: "bar",
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: "6px",
+            colors: "#FFFFFF",
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: "6px",
+            colors: "#FFFFFF",
+          },
+        },
+      },
+      grid: {
+        borderColor: "#4d4d4d",
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "30%",
+          endingShape: "rounded",
+          colors: {
+            ranges: [],
+          },
+          dataLabels: {
+            position: "top",
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        offsetY: -10,
+        style: {
+          colors: ["#FFFFFF"],
+          fontSize: "8px",
+        },
+        // formatter: (val) => `${val}°C`,
+      },
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ["transparent"],
+      },
+      fill: {
+        opacity: 1,
+      },
+      tooltip: {
+        theme: "dark",
+        y: {
+          formatter: (val) => `${val}°C`,
+        },
+      },
+    },
+  });
+
+  // line chart options
+  const [lineData, setLineData] = useState({
+    series: [],
+    options: {
+      chart: {
+        type: "line",
+        zoom: {
+          enabled: true,
+          type: "x",
+          scrollable: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: "6px",
+            colors: "#FFFFFF",
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: "6px",
+            colors: "#FFFFFF",
+          },
+        },
+      },
+      legend: {
+        position: "right",
+        labels: {
+          colors: "#FFFFFF",
+          fontSize: "8px", 
+        },
+      },
+      stroke: {
+        curve: "straight",
+        width: 1.5,
+      },
+      grid: {
+        borderColor: "#4d4d4d",
+      },
+      markers: {
+        size: 0,
+      },
+      tooltip: {
+        enabled: true,
+        theme: "dark",
+        marker: {
+          show: true,
+        },
+      },
+    },
+  });
 
   // line chart limit
   const getInitialLimit = () => {
@@ -39,128 +161,147 @@ const Dashboard = ({ dataFromApp }) => {
 
   const chartRef = useRef({ min: null, max: null });
 
-  // line chart
-  const lineOptions = {
-    chart: {
-      id: "line-chart",
-      // zoom: {
-      //   autoScaleYaxis: true,
-      // },
-      events: {
-        zoomed: (chartContext, { xaxis }) => {
-          chartRef.current.min = xaxis.min;
-          chartRef.current.max = xaxis.max;
-        },
-        scrolled: (chartContext, { xaxis }) => {
-          chartRef.current.min = xaxis.min;
-          chartRef.current.max = xaxis.max;
-        },
-        beforeResetZoom: () => {
-          chartRef.current.min = null;
-          chartRef.current.max = null;
-        },
-      },
-    },
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-      labels: {
-        style: {
-          colors: "#FFFFFF",
-        },
-      },
-      min: chartRef.current.min !== null ? chartRef.current.min : undefined,
-      max: chartRef.current.max !== null ? chartRef.current.max : undefined,
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#FFFFFF",
-        },
-      },
-    },
-    stroke: {
-      curve: "straight",
-      width: 1.5,
-    },
-    grid: {
-      borderColor: "#4d4d4d",
-    },
-    markers: {
-      size: 0,
-    },
-    tooltip: {
-      enabled: true,
-      theme: "dark",
-      marker: {
-        show: true,
-      },
-    },
-  };
+  // chart data assignment
+  useEffect(() => {
+    if(dataFromApp.length > 0) {
+      
+      const barCategories = [];
+      const barSeries = [];
 
-  const lineSeries = [
-    {
-      name: "Sales",
-      data: [30, 40, 35, 50, 49, 60, 70],
-    },
-  ];
+      Object.keys(dataFromApp[0]).forEach(key => {
+        if(key !== 'createdAt' && key!== '_id') {
+          barCategories.push(key);
+          barSeries.push(parseFloat(dataFromApp[0][key]));
+        };
+      });
 
-  // bar chart
-  const barOptions = {
-    chart: {
-      id: "bar-chart",
-    },
-    xaxis: {
-      categories: Array.from({ length: 15 }, (_, i) => `S${i + 1}`),
-      labels: {
-        style: {
-          fontSize: "6px",
-          colors: "#FFFFFF",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          fontSize: "6px",
-          colors: "#FFFFFF",
-        },
-      },
-    },
-    grid: {
-      borderColor: "#4d4d4d",
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "30%",
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    fill: {
-      opacity: 1,
-    },
-    tooltip: {
-      theme: "dark",
-      y: {
-        formatter: (val) => `${val}°C`,
-      },
-    },
-  };
+      // highlight max value bar
+      const colorRange = barSeries.map((value) => ({
+        from: value,
+        to: value,
+        color: value === Math.max(...barSeries) ? "#FF0000" : "#00E396",
+      }));
 
-  const barSeries = [
-    {
-      name: "Data Series 1",
-      data: Array.from({ length: 15 }, () => Math.floor(Math.random() * 100)),
-    },
-  ];
+      const lineCategories = dataFromApp.map(item => new Date(item.createdAt).toLocaleString("en-GB"));
+      const lineSeries = [
+        {
+          name: "S1",
+          data: dataFromApp.map((item) => item.S1),
+        },
+        {
+          name: "S2",
+          data: dataFromApp.map((item) => item.S2),
+        },
+        {
+          name: "S3",
+          data: dataFromApp.map((item) => item.S3),
+        },
+        {
+          name: "S4",
+          data: dataFromApp.map((item) => item.S4),
+        },
+        {
+          name: "S5",
+          data: dataFromApp.map((item) => item.S5),
+        },
+        {
+          name: "S6",
+          data: dataFromApp.map((item) => item.S6),
+        },
+        {
+          name: "S7",
+          data: dataFromApp.map((item) => item.S7),
+        },
+        {
+          name: "S8",
+          data: dataFromApp.map((item) => item.S8),
+        },
+        {
+          name: "S9",
+          data: dataFromApp.map((item) => item.S9),
+        },
+        {
+          name: "S10",
+          data: dataFromApp.map((item) => item.S10),
+        },
+        {
+          name: "S11",
+          data: dataFromApp.map((item) => item.S11),
+        },
+        {
+          name: "S12",
+          data: dataFromApp.map((item) => item.S12),
+        },
+        {
+          name: "S13",
+          data: dataFromApp.map((item) => item.S13),
+        },
+        {
+          name: "S14",
+          data: dataFromApp.map((item) => item.S14),
+        },
+        {
+          name: "S15",
+          data: dataFromApp.map((item) => item.S15),
+        },
+      ];
+
+      setBarData({
+        series: [
+          {
+            name: "Sensor Temp",
+            data: barSeries,
+          },
+        ],
+        options: {
+          ...barData.options,
+          xaxis: {
+            categories: barCategories,
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "30%",
+              endingShape: "rounded",
+              colors: {
+                ranges: colorRange,
+              },
+            },
+          },
+        },
+      });
+
+      setLineData({
+        series: lineSeries,
+        options: {
+          ...lineData.options,
+          chart: {
+            type: "line",
+            events: {
+              zoomed: (chartContext, { xaxis }) => {
+                chartRef.current.min = xaxis.min;
+                chartRef.current.max = xaxis.max;
+              },
+              scrolled: (chartContext, { xaxis }) => {
+                chartRef.current.min = xaxis.min;
+                chartRef.current.max = xaxis.max;
+              },
+              beforeResetZoom: () => {
+                chartRef.current.min = null;
+                chartRef.current.max = null;
+              },
+            },
+          },
+          xaxis: {
+            categories: lineCategories,
+            min: chartRef.current.min !== null ? chartRef.current.min : undefined,
+            max: chartRef.current.max !== null ? chartRef.current.max : undefined,
+          },
+        },
+      });
+
+    };
+  }, [dataFromApp]);
 
   return (
     <div className="xl:h-screen px-4 py-2 text-white 2xl:text-2xl flex flex-col">
@@ -643,8 +784,8 @@ const Dashboard = ({ dataFromApp }) => {
             {/* bar */}
             <div className="border border-white w-full md:w-1/2 overflow-hidden p-1 mt-2 mr-2 h-[300px] xl:h-auto">
               <ApexCharts
-                options={barOptions}
-                series={barSeries}
+                options={barData.options}
+                series={barData.series}
                 type="bar"
                 height="100%"
               />
@@ -712,8 +853,8 @@ const Dashboard = ({ dataFromApp }) => {
           </div>
           <div className="flex-1">
             <ApexCharts
-              options={lineOptions}
-              series={lineSeries}
+              options={lineData.options}
+              series={lineData.series}
               type="line"
               height="100%"
             />

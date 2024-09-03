@@ -181,3 +181,18 @@ body {
 .apexcharts-tooltip .apexcharts-tooltip-text {
   font-size: 10px !important; 
 }
+
+.apexcharts-legend {
+  border: 1px solid white; /* Border around the legend */
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Create a 2-column grid */
+  gap: 10px; /* Space between grid items */
+  padding: 10px; /* Padding inside the legend container */
+  max-width: 300px;
+  height: 100px; /* Adjust width as needed */
+}
+
+/* Style for each legend item */
+.apexcharts-legend-series {
+  grid-column: span 1; /* Each item spans 1 column */
+}
