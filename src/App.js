@@ -2,10 +2,12 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Login from './Components/Pages/Login';
-import Dashboard from "./Components/Pages/Dashboard";
+import DashboardOld from "./Components/Pages/DashboardOld";
 import ProtectedRoute from "./Components/Pages/ProtectedRoute";
 import { Route, Routes } from "react-router-dom";
-import MainPage from './Components/Pages/MainPage';
+import Dashboard from './Components/Pages/Dashboard';
+import Reports from './Components/Pages/Reports';
+import Analysis from './Components/Pages/Analytics';
 
 const App = () => {
 
@@ -65,7 +67,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Dashboard dataFromApp={hindalcoData} />} />
-          <Route path='MainPage' element={<MainPage />} />
+          {/* <Route path='MainPage' element={<DashboardOld />} /> */}
+          <Route path="Reports" element={<Reports />} />
+          <Route path="Analytics" element={<Analysis />} />
         </Route>
       </Routes>
     </>

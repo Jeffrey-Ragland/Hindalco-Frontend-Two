@@ -45,8 +45,8 @@ const Login = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="backdrop-blur-sm rounded-xl p-4 text-white shadow shadow-white flex gap-4">
-        <div className="p-2">
+      <div className="backdrop-blur-sm rounded-xl p-4 text-white shadow shadow-white flex flex-col md:flex-row gap-4">
+        <div className="p-2 hidden md:block">
           <img src={loginVector} className="max-w-[250px] rounded-2xl" />
         </div>
         <div className="flex flex-col gap-4 justify-center items-center p-4">
