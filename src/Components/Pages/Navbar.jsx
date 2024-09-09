@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import xymaLogoWhite from "../Assets/xymaLogoWhite.png";
 import hindalcoLogo from "../Assets/hindalcoLogo.png";
 import { ImExit } from "react-icons/im";
@@ -12,6 +12,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 const Navbar = () => {
 
     const [hamburgerPopup, setHamburgerPopup] = useState(false);
+    const location = useLocation();
 
   return (
     <>
@@ -40,21 +41,60 @@ const Navbar = () => {
         {/* hindalco logo , logout */}
         <div className="hidden md:flex gap-4 items-center">
           {/* navbar */}
-          <div className="flex gap-4 mr-4">
+          <div className="flex items-center gap-4 mr-4">
             <Link to="/">
-              <div>Dashboard</div>
+              <div
+                className={`flex flex-col items-center ${
+                  location.pathname === "/"
+                    ? "text-[#9cb3d6] font-semibold text-xl"
+                    : "hover:scale-110 duration-200 hover:text-[#9cb3d6] "
+                } `}
+              >
+                Dashboard
+                {location.pathname === "/" && (
+                  <div className="relative w-full h-[6px] overflow-hidden flex justify-center items-center">
+                    <div className="absolute bottom-0 w-4 h-8 rounded-full bg-[#9cb3d6]"></div>
+                  </div>
+                )}
+              </div>
             </Link>
 
             <div>/</div>
 
             <Link to="/Reports">
-              <div>Reports</div>
+              <div
+                className={`flex flex-col items-center ${
+                  location.pathname === "/Reports"
+                    ? "text-[#9cb3d6] font-semibold text-xl"
+                    : "hover:scale-110 duration-200 hover:text-[#9cb3d6] "
+                }`}
+              >
+                Reports
+                {location.pathname === "/Reports" && (
+                  <div className="relative w-full h-[6px] overflow-hidden flex justify-center items-center">
+                    <div className="absolute bottom-0 w-4 h-8 rounded-full bg-[#9cb3d6]"></div>
+                  </div>
+                )}
+              </div>
             </Link>
 
             <div>/</div>
 
             <Link to="/Analytics">
-              <div>Analytics</div>
+              <div
+                className={`flex flex-col items-center ${
+                  location.pathname === "/Analytics"
+                    ? "text-[#9cb3d6] font-semibold text-xl"
+                    : "hover:scale-110 duration-200 hover:text-[#9cb3d6] "
+                }`}
+              >
+                Analytics
+                {location.pathname === "/Analytics" && (
+                  <div className="relative w-full h-[6px] overflow-hidden flex justify-center items-center">
+                    <div className="absolute bottom-0 w-4 h-8 rounded-full bg-[#9cb3d6]"></div>
+                  </div>
+                )}
+              </div>
             </Link>
           </div>
 

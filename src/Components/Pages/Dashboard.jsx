@@ -24,11 +24,12 @@ import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const MainPage = ({dataFromApp}) => {
-
   // console.log('data', dataFromApp);
 
   // const [viewAllCards, setViewAllCards] = useState(false);
-  const alertLimitFromLS = parseFloat(localStorage.getItem('HindalcoAlertLimit'));
+  const alertLimitFromLS = parseFloat(
+    localStorage.getItem("HindalcoAlertLimit")
+  );
 
   // line chart limit
   const getInitialLimit = () => {
@@ -45,210 +46,520 @@ const MainPage = ({dataFromApp}) => {
   };
 
   // card alert limit
-  const [hindalcoAlertLimit, setHindalcoAlertLimit] = useState('');
+  const [hindalcoAlertLimit, setHindalcoAlertLimit] = useState("");
 
   const handleAlertLimit = (e) => {
     e.preventDefault();
     localStorage.setItem("HindalcoAlertLimit", hindalcoAlertLimit.toString());
-    setHindalcoAlertLimit('');
+    setHindalcoAlertLimit("");
   };
 
   // cards view more condition
   const getInitialViewMoreCondition = () => {
     const cardsViewCondition = localStorage.getItem("HindalcoCardsViewMore");
-    if (cardsViewCondition === 'false') {
+    if (cardsViewCondition === "false") {
       return false;
     } else return true;
   };
 
   const [viewAllCards, setViewAllCards] = useState(getInitialViewMoreCondition);
 
-  const handleViewCards = () =>{
-     setViewAllCards((prevState) => {
-       const newState = !prevState;
-       localStorage.setItem("HindalcoCardsViewMore", String(newState));
-       return newState;
-     });
+  const handleViewCards = () => {
+    setViewAllCards((prevState) => {
+      const newState = !prevState;
+      localStorage.setItem("HindalcoCardsViewMore", String(newState));
+      return newState;
+    });
   };
 
   // console.log('view all cards condition', viewAllCards);
-  
-  // line chart
-  const lineSeries = [
-    {
-      name: "S1",
-      data: [30, 28, 34, 33, 29, 37, 36, 31, 34, 35, 32, 38],
-    },
-    {
-      name: "S2",
-      data: [27, 31, 29, 30, 32, 33, 28, 29, 35, 31, 34, 36],
-    },
-    {
-      name: "S3",
-      data: [24, 29, 27, 28, 26, 32, 31, 28, 29, 33, 27, 30],
-    },
-    {
-      name: "S4",
-      data: [25, 23, 27, 24, 22, 30, 29, 26, 28, 25, 27, 31],
-    },
-    {
-      name: "S5",
-      data: [21, 24, 20, 22, 26, 28, 24, 21, 25, 27, 23, 29],
-    },
-    {
-      name: "S6",
-      data: [19, 22, 18, 21, 25, 26, 23, 20, 24, 26, 22, 28],
-    },
-    {
-      name: "S7",
-      data: [29, 32, 28, 30, 33, 34, 29, 31, 36, 33, 35, 37],
-    },
-    {
-      name: "S8",
-      data: [33, 31, 34, 29, 30, 37, 35, 32, 34, 36, 33, 38],
-    },
-    {
-      name: "S9",
-      data: [25, 28, 24, 27, 29, 31, 26, 28, 32, 30, 29, 33],
-    },
-    {
-      name: "S10",
-      data: [22, 26, 23, 25, 28, 30, 27, 23, 29, 31, 26, 32],
-    },
-  ];
 
-  const lineOptions = {
-    chart: {
-      type: "line",
-      toolbar: {
+  // // line chart
+  // const lineSeries = [
+  //   {
+  //     name: "S1",
+  //     data: [30, 28, 34, 33, 29, 37, 36, 31, 34, 35, 32, 38],
+  //   },
+  //   {
+  //     name: "S2",
+  //     data: [27, 31, 29, 30, 32, 33, 28, 29, 35, 31, 34, 36],
+  //   },
+  //   {
+  //     name: "S3",
+  //     data: [24, 29, 27, 28, 26, 32, 31, 28, 29, 33, 27, 30],
+  //   },
+  //   {
+  //     name: "S4",
+  //     data: [25, 23, 27, 24, 22, 30, 29, 26, 28, 25, 27, 31],
+  //   },
+  //   {
+  //     name: "S5",
+  //     data: [21, 24, 20, 22, 26, 28, 24, 21, 25, 27, 23, 29],
+  //   },
+  //   {
+  //     name: "S6",
+  //     data: [19, 22, 18, 21, 25, 26, 23, 20, 24, 26, 22, 28],
+  //   },
+  //   {
+  //     name: "S7",
+  //     data: [29, 32, 28, 30, 33, 34, 29, 31, 36, 33, 35, 37],
+  //   },
+  //   {
+  //     name: "S8",
+  //     data: [33, 31, 34, 29, 30, 37, 35, 32, 34, 36, 33, 38],
+  //   },
+  //   {
+  //     name: "S9",
+  //     data: [25, 28, 24, 27, 29, 31, 26, 28, 32, 30, 29, 33],
+  //   },
+  //   {
+  //     name: "S10",
+  //     data: [22, 26, 23, 25, 28, 30, 27, 23, 29, 31, 26, 32],
+  //   },
+  // ];
+
+  // const lineOptions = {
+  //   chart: {
+  //     type: "line",
+  //     toolbar: {
+  //       show: true,
+  //     },
+  //     events: {
+  //       mounted: function (chartContext, config) {
+  //         chartContext.hideSeries("S2");
+  //         chartContext.hideSeries("S3");
+  //         chartContext.hideSeries("S4");
+  //         chartContext.hideSeries("S5");
+  //         chartContext.hideSeries("S6");
+  //         chartContext.hideSeries("S7");
+  //         chartContext.hideSeries("S8");
+  //         chartContext.hideSeries("S9");
+  //         chartContext.hideSeries("S10");
+  //       },
+  //     },
+  //   },
+  //   stroke: {
+  //     curve: "straight",
+  //     width: 1.5,
+  //   },
+  //   xaxis: {
+  //     categories: [
+  //       "2024-09-01 00:00",
+  //       "2024-09-01 01:00",
+  //       "2024-09-01 02:00",
+  //       "2024-09-01 03:00",
+  //       "2024-09-01 04:00",
+  //       "2024-09-01 05:00",
+  //       "2024-09-01 06:00",
+  //       "2024-09-01 07:00",
+  //       "2024-09-01 08:00",
+  //       "2024-09-01 09:00",
+  //       "2024-09-01 10:00",
+  //       "2024-09-01 11:00",
+  //     ],
+  //     labels: {
+  //       style: {
+  //         fontSize: "8px",
+  //       },
+  //     },
+  //   },
+  //   yaxis: {
+  //     labels: {
+  //       style: {
+  //         fontSize: "8px",
+  //       },
+  //     },
+  //   },
+  //   grid: {
+  //     borderColor: "#9CA3AF",
+  //   },
+  //   legend: {
+  //     position: "top",
+  //     labels: {
+  //       fontSize: "8px",
+  //     },
+  //   },
+  //   tooltip: {
+  //     shared: true,
+  //     intersect: false,
+  //   },
+  // };
+
+  // // bar chart
+  // const barOptions = {
+  //   chart: {
+  //     type: "bar",
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       horizontal: false,
+  //       columnWidth: "30%",
+  //       endingShape: "rounded",
+  //     },
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   stroke: {
+  //     show: true,
+  //     width: 2,
+  //     colors: ["transparent"],
+  //   },
+  //   xaxis: {
+  //     categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  //     labels: {
+  //       style: {
+  //         fontSize: "6px",
+  //         colors: "#374151",
+  //       },
+  //     },
+  //   },
+  //   yaxis: {
+  //     labels: {
+  //       style: {
+  //         fontSize: "6px",
+  //         colors: "#374151",
+  //       },
+  //     },
+  //   },
+  //   grid: {
+  //     borderColor: "#9CA3AF",
+  //   },
+  //   fill: {
+  //     opacity: 1,
+  //   },
+  //   tooltip: {
+  //     y: {
+  //       formatter: function (val) {
+  //         return "$ " + val + " thousands";
+  //       },
+  //     },
+  //   },
+  //   legend: {
+  //     show: false
+  //   }
+  // };
+
+  // const barSeries = [
+  //   {
+  //     name: "Sales",
+  //     data: [30, 40, 45, 50, 49, 60, 70],
+  //   },
+  //   {
+  //     name: "Revenue",
+  //     data: [40, 60, 55, 70, 65, 85, 90],
+  //   },
+  // ];
+
+  // bar chart options
+  const [barData, setBarData] = useState({
+    series: [],
+    options: {
+      chart: {
+        type: "bar",
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: "6px",
+            colors: "#4a5568",
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: "6px",
+            colors: "#4a5568",
+          },
+        },
+      },
+      grid: {
+        borderColor: "#4d4d4d",
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "30%",
+          endingShape: "rounded",
+          colors: {
+            ranges: [],
+          },
+          dataLabels: {
+            position: "top",
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        offsetY: -10,
+        style: {
+          colors: ["#4a5568"],
+          fontSize: "8px",
+        },
+        // formatter: (val) => `${val}°C`,
+      },
+      stroke: {
         show: true,
+        width: 2,
+        colors: ["transparent"],
       },
-      events: {
-        mounted: function (chartContext, config) {
-          chartContext.hideSeries("S2");
-          chartContext.hideSeries("S3");
-          chartContext.hideSeries("S4");
-          chartContext.hideSeries("S5");
-          chartContext.hideSeries("S6");
-          chartContext.hideSeries("S7");
-          chartContext.hideSeries("S8");
-          chartContext.hideSeries("S9");
-          chartContext.hideSeries("S10");
+      fill: {
+        opacity: 1,
+      },
+      tooltip: {
+        theme: "dark",
+        y: {
+          formatter: (val) => `${val}°C`,
         },
       },
     },
-    stroke: {
-      curve: "straight",
-      width: 1.5,
-    },
-    xaxis: {
-      categories: [
-        "2024-09-01 00:00",
-        "2024-09-01 01:00",
-        "2024-09-01 02:00",
-        "2024-09-01 03:00",
-        "2024-09-01 04:00",
-        "2024-09-01 05:00",
-        "2024-09-01 06:00",
-        "2024-09-01 07:00",
-        "2024-09-01 08:00",
-        "2024-09-01 09:00",
-        "2024-09-01 10:00",
-        "2024-09-01 11:00",
-      ],
-      labels: {
-        style: {
-          fontSize: "8px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          fontSize: "8px",
-        },
-      },
-    },
-    grid: {
-      borderColor: "#9CA3AF",
-    },
-    legend: {
-      position: "top",
-      labels: {
-        fontSize: "8px",
-      },
-    },
-    tooltip: {
-      shared: true,
-      intersect: false,
-    },
-  };
+  });
 
-  // bar chart
-  const barOptions = {
-    chart: {
-      type: "bar",
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "30%",
-        endingShape: "rounded",
+  // line chart options
+  const [lineData, setLineData] = useState({
+    series: [],
+    options: {
+      chart: {
+        type: "line",
+        zoom: {
+          enabled: true,
+          type: "x",
+          scrollable: true,
+        },
+        // events: {
+        //   mounted: function (chartContext, config) {
+        //     chartContext.hideSeries("S2");
+        //     chartContext.hideSeries("S3");
+        //     chartContext.hideSeries("S4");
+        //     chartContext.hideSeries("S5");
+        //     chartContext.hideSeries("S6");
+        //     chartContext.hideSeries("S7");
+        //     chartContext.hideSeries("S8");
+        //     chartContext.hideSeries("S9");
+        //     chartContext.hideSeries("S10");
+        //     chartContext.hideSeries("S11");
+        //     chartContext.hideSeries("S12");
+        //     chartContext.hideSeries("S13");
+        //     chartContext.hideSeries("S14");
+        //     chartContext.hideSeries("S15");
+        //   },
+        // },
       },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-      labels: {
-        style: {
-          fontSize: "6px",
-          colors: "#374151",
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: "6px",
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: "6px",
+          },
+        },
+      },
+      grid: {
+        borderColor: "#9CA3AF",
+      },
+      legend: {
+        position: "top",
+        labels: {
+          fontSize: "8px",
+        },
+      },
+      stroke: {
+        curve: "straight",
+        width: 1.5,
+      },
+      grid: {
+        borderColor: "#4d4d4d",
+      },
+      markers: {
+        size: 0,
+      },
+      tooltip: {
+        enabled: true,
+        theme: "dark",
+        marker: {
+          show: true,
         },
       },
     },
-    yaxis: {
-      labels: {
-        style: {
-          fontSize: "6px",
-          colors: "#374151",
+  });
+
+  const chartRef = useRef({ min: null, max: null });
+
+  // chart data assignment
+  useEffect(() => {
+    if (dataFromApp.length > 0) {
+      const barCategories = [];
+      const barSeries = [];
+
+      Object.keys(dataFromApp[0]).forEach((key) => {
+        if (
+          key !== "createdAt" &&
+          key !== "_id" &&
+          key !== "DeviceName" &&
+          key !== "DeviceTemperature" &&
+          key !== "DeviceBattery" &&
+          key !== "DeviceSignal"
+        ) {
+          barCategories.push(key);
+          barSeries.push(parseFloat(dataFromApp[0][key]));
+        }
+      });
+
+      // highlight max value bar
+      const colorRange = barSeries.map((value) => ({
+        from: value,
+        to: value,
+        color: value === Math.max(...barSeries) ? "#FF0000" : "#00E396",
+      }));
+
+      const lineCategories = dataFromApp.map((item) =>
+        new Date(item.createdAt).toLocaleString("en-GB")
+      );
+      const lineSeries = [
+        {
+          name: "S1",
+          data: dataFromApp.map((item) => item.S1),
         },
-      },
-    },
-    grid: {
-      borderColor: "#9CA3AF",
-    },
-    fill: {
-      opacity: 1,
-    },
-    tooltip: {
-      y: {
-        formatter: function (val) {
-          return "$ " + val + " thousands";
+        {
+          name: "S2",
+          data: dataFromApp.map((item) => item.S2),
         },
-      },
-    },
-    legend: {
-      show: false
+        {
+          name: "S3",
+          data: dataFromApp.map((item) => item.S3),
+        },
+        {
+          name: "S4",
+          data: dataFromApp.map((item) => item.S4),
+        },
+        {
+          name: "S5",
+          data: dataFromApp.map((item) => item.S5),
+        },
+        {
+          name: "S6",
+          data: dataFromApp.map((item) => item.S6),
+        },
+        {
+          name: "S7",
+          data: dataFromApp.map((item) => item.S7),
+        },
+        {
+          name: "S8",
+          data: dataFromApp.map((item) => item.S8),
+        },
+        {
+          name: "S9",
+          data: dataFromApp.map((item) => item.S9),
+        },
+        {
+          name: "S10",
+          data: dataFromApp.map((item) => item.S10),
+        },
+        {
+          name: "S11",
+          data: dataFromApp.map((item) => item.S11),
+        },
+        {
+          name: "S12",
+          data: dataFromApp.map((item) => item.S12),
+        },
+        {
+          name: "S13",
+          data: dataFromApp.map((item) => item.S13),
+        },
+        {
+          name: "S14",
+          data: dataFromApp.map((item) => item.S14),
+        },
+        {
+          name: "S15",
+          data: dataFromApp.map((item) => item.S15),
+        },
+      ];
+
+      setBarData({
+        series: [
+          {
+            name: "Sensor Temp",
+            data: barSeries,
+          },
+        ],
+        options: {
+          ...barData.options,
+          xaxis: {
+            categories: barCategories,
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "30%",
+              endingShape: "rounded",
+              colors: {
+                ranges: colorRange,
+              },
+            },
+          },
+        },
+      });
+
+      setLineData({
+        series: lineSeries,
+        options: {
+          ...lineData.options,
+          chart: {
+            type: "line",
+            events: {
+              zoomed: (chartContext, { xaxis }) => {
+                chartRef.current.min = xaxis.min;
+                chartRef.current.max = xaxis.max;
+              },
+              scrolled: (chartContext, { xaxis }) => {
+                chartRef.current.min = xaxis.min;
+                chartRef.current.max = xaxis.max;
+              },
+              beforeResetZoom: () => {
+                chartRef.current.min = null;
+                chartRef.current.max = null;
+              },
+              mounted: function (chartContext, config) {
+                chartContext.hideSeries("S2");
+                chartContext.hideSeries("S3");
+                chartContext.hideSeries("S4");
+                chartContext.hideSeries("S5");
+                chartContext.hideSeries("S6");
+                chartContext.hideSeries("S7");
+                chartContext.hideSeries("S8");
+                chartContext.hideSeries("S9");
+                chartContext.hideSeries("S10");
+                chartContext.hideSeries("S11");
+                chartContext.hideSeries("S12");
+                chartContext.hideSeries("S13");
+                chartContext.hideSeries("S14");
+                chartContext.hideSeries("S15");
+                chartContext.showSeries("S1");
+              },
+            },
+          },
+          xaxis: {
+            categories: lineCategories,
+            min:
+              chartRef.current.min !== null ? chartRef.current.min : undefined,
+            max:
+              chartRef.current.max !== null ? chartRef.current.max : undefined,
+          },
+        },
+      });
     }
-  };
-
-  const barSeries = [
-    {
-      name: "Sales",
-      data: [30, 40, 45, 50, 49, 60, 70],
-    },
-    {
-      name: "Revenue",
-      data: [40, 60, 55, 70, 65, 85, 90],
-    },
-  ];
+  }, [dataFromApp]);
 
   // alerts array
   const alertsArray =
@@ -264,13 +575,11 @@ const MainPage = ({dataFromApp}) => {
               key !== "createdAt" &&
               value !== "N/A"
           )
-          .filter(
-            ([key, value]) => value > alertLimitFromLS 
-          )
+          .filter(([key, value]) => value > alertLimitFromLS)
           .map(([key, value]) => {
             console.log("alert key", key);
             console.log("value", value);
-            return { key, value }; 
+            return { key, value };
           })
       : [];
 
@@ -365,8 +674,8 @@ const MainPage = ({dataFromApp}) => {
             </div>
             <div className="w-full md:w-[45%] flex flex-col gap-2 p-1">
               <ApexCharts
-                options={barOptions}
-                series={barSeries}
+                options={barData.options}
+                series={barData.series}
                 type="bar"
                 height="100%"
               />
@@ -925,9 +1234,8 @@ const MainPage = ({dataFromApp}) => {
               <div>Last Updated Data: </div>
             </div>
             <div className="text-center text-sm 2xl:text-xl">
-              24/08/2024 12:55pm
-              {/* {dataFromApp.length > 0 &&
-                new Date(dataFromApp[0].createdAt).toLocaleString("en-GB")} */}
+              {dataFromApp.length > 0 &&
+                new Date(dataFromApp[0].createdAt).toLocaleString("en-GB")}
             </div>
           </div>
 
@@ -978,8 +1286,8 @@ const MainPage = ({dataFromApp}) => {
         >
           <div className="w-full">
             <ApexCharts
-              options={lineOptions}
-              series={lineSeries}
+              options={lineData.options}
+              series={lineData.series}
               type="line"
               height="100%"
             />
