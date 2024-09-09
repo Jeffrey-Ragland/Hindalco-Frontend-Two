@@ -35,7 +35,7 @@ const ProtectedRoute = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading ...</div>;
+    return <div className="text-white h-screen flex justify-center items-center">Loading ...</div>;
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;

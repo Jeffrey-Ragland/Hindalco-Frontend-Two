@@ -30,15 +30,47 @@ const App = () => {
     }
   }, []);
 
+  // for card alert limit
+  const getInitialHindalcoAlertCondition = () => {
+    const storedLimit = localStorage.getItem("HindalcoAlertLimit");
+    return storedLimit ? 1 : 0;
+  };
+
+  const [hindalcoAlertCondition, setHindalcoAlertCondition] = useState(
+    getInitialHindalcoAlertCondition
+  );
+
+  useEffect(() => {
+    if (hindalcoAlertCondition === 0) {
+      localStorage.setItem("HindalcoAlertLimit", "75");
+      setHindalcoAlertCondition(1);
+    }
+  }, []);
+
+  // for view more cards
+  const getInitialViewCondition = () => {
+    const storedView = localStorage.getItem('HindalcoCardsViewMore');
+    return storedView ? 1 : 0;
+  };
+
+  const [hindalcoViewCondition, setHindalcoViewCondition] = useState(getInitialViewCondition);
+
+  useEffect(() => {
+    if(hindalcoViewCondition === 0) {
+      localStorage.setItem("HindalcoCardsViewMore", 'false');
+      setHindalcoViewCondition(1);
+    }
+  },[]);
+
   // fetching data
   useEffect(() => {
     getHindalcoData();
 
-    // const hindalcoInterval = setInterval(getHindalcoData, 2000);
+    const hindalcoInterval = setInterval(getHindalcoData, 2000);
 
-    // return () => {
-    //   clearInterval(hindalcoInterval);
-    // };
+    return () => {
+      clearInterval(hindalcoInterval);
+    };
   }, []);
 
   // get data api

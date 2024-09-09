@@ -80,7 +80,7 @@ const Navbar = () => {
 
         {/* hamburger menu */}
         <div
-          className="md:hidden relative"
+          className="md:hidden relative z-10"
           onClick={() => setHamburgerPopup(!hamburgerPopup)}
         >
           {hamburgerPopup === false ? (

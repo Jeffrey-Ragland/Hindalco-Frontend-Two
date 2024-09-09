@@ -142,7 +142,7 @@ body {
 .square-btn {
   position: relative;
   border: none;
-  background: none;
+  /* background: none; */
 }
 
 .square-btn::before,
@@ -179,7 +179,6 @@ body {
   stroke: #26a69a; /* Customize line color */
 }
 
-
 /* line chart styles */
 .apexcharts-toolbar .apexcharts-menu {
   background-color: #000000 !important; 
@@ -198,5 +197,34 @@ body {
 
 .apexcharts-tooltip .apexcharts-tooltip-text {
   font-size: 10px !important; 
+}
+
+/* card blink */
+@keyframes blink {
+   0%
+    {
+        /* color: red;
+        border-color: red; */
+        background-color: red;
+        color: white;
+    }
+    50%
+    {
+        /* color: gray;
+        border-color: gray; */
+        background-color: gray;
+        color: white;
+    }
+    100%
+    {
+        /* color: red;
+        border-color: red; */
+        background-color: red;
+        color: white;
+    }
+}
+
+.card-indicator {
+  animation: blink 1s infinite; 
 }
 
