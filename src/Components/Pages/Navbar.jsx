@@ -39,7 +39,7 @@ const Navbar = () => {
         </div>
 
         {/* hindalco logo , logout */}
-        <div className="hidden md:flex gap-4 items-center">
+        <div className="hidden xl:flex gap-4 items-center">
           {/* navbar */}
           <div className="flex items-center gap-4 mr-4">
             <Link to="/">
@@ -120,7 +120,7 @@ const Navbar = () => {
 
         {/* hamburger menu */}
         <div
-          className="md:hidden relative z-10"
+          className="xl:hidden relative z-10"
           onClick={() => setHamburgerPopup(!hamburgerPopup)}
         >
           {hamburgerPopup === false ? (

@@ -1,44 +1,33 @@
 import React from 'react';
-import xymaLogoBlue from '../Assets/xymaLogoBlue.png';
-import hindalcoLogo from '../Assets/hindalcoLogo.png';
-import { ImExit } from "react-icons/im";
-import { Link } from "react-router-dom";
 import potline from '../Assets/potline.png';
 import { FaBell, FaBatteryFull } from "react-icons/fa";
-import { IoTrashOutline } from "react-icons/io5";
 import { FaMobileScreenButton } from "react-icons/fa6";
 import { LuRadioTower } from "react-icons/lu";
 import { useRef, useState, useEffect } from "react";
-import xymaLogoWhite from "../Assets/xymaLogoWhite.png";
-import { MdSystemSecurityUpdateWarning, MdOutlineUpdate } from "react-icons/md";
-import {
-  BsThermometerSun,
-  BsClipboard2DataFill,
-  BsDatabaseFillCheck,
-} from "react-icons/bs";
+import { MdOutlineUpdate } from "react-icons/md";
+import { BsThermometerSun } from "react-icons/bs";
 import { LiaRulerVerticalSolid } from "react-icons/lia";
-import { TbTrendingUp } from "react-icons/tb";
 import ApexCharts from "react-apexcharts";
 import Navbar from './Navbar';
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
-const MainPage = ({dataFromApp}) => {
-  // console.log('data', dataFromApp);
+const Dashboard = ({dataFromApp}) => {
+  console.log("data", dataFromApp);
 
-  const parameters = dataFromApp.length > 0 && Object.keys(dataFromApp[0]).filter(key => key.startsWith('S'));
+  const parameters =
+    dataFromApp.length > 0 &&
+    Object.keys(dataFromApp[0]).filter((key) => key.startsWith("S"));
 
-  const [selectedSensors, setSelectedSensors] = useState(['S1']);
+  const [selectedSensors, setSelectedSensors] = useState(["S1"]);
 
   const handleLineSelection = (key) => {
-    setSelectedSensors(prevState => 
-      prevState.includes(key) ? prevState.filter(sensor => sensor !== key) : [...prevState, key]
-    )
+    setSelectedSensors((prevState) =>
+      prevState.includes(key)
+        ? prevState.filter((sensor) => sensor !== key)
+        : [...prevState, key]
+    );
   };
-
-  console.log('selected sensors', selectedSensors);
-
-  // console.log('parameters',parameters);
 
   const alertLimitFromLS = parseFloat(
     localStorage.getItem("HindalcoAlertLimit")
@@ -85,6 +74,31 @@ const MainPage = ({dataFromApp}) => {
     });
   };
 
+  // alerts array
+  const alertsArray =
+    dataFromApp.length > 0
+      ? Object.entries(dataFromApp[0])
+          .filter(
+            ([key, value]) =>
+              key !== "_id" &&
+              key !== "DeviceName" &&
+              key !== "DeviceTemperature" &&
+              key !== "DeviceBattery" &&
+              key !== "DeviceSignal" &&
+              key !== "createdAt" &&
+              value !== "N/A"
+          )
+          .filter(([key, value]) => value >= alertLimitFromLS)
+          .map(([key, value]) => {
+            return { key, value };
+          })
+      : [];
+
+  const alertKeys = alertsArray.map(({ key }) => key); 
+
+  console.log('alerts array', alertsArray);
+  console.log('alert keys', alertKeys);
+
   // bar chart options
   const [barData, setBarData] = useState({
     series: [],
@@ -110,16 +124,15 @@ const MainPage = ({dataFromApp}) => {
         },
       },
       grid: {
-        borderColor: "#4d4d4d",
+        show: false,
+        // borderColor: "#4d4d4d",
       },
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "30%",
+          columnWidth: "15%",
           endingShape: "rounded",
-          colors: {
-            ranges: [],
-          },
+          distributed: true,
           dataLabels: {
             position: "top",
           },
@@ -132,7 +145,7 @@ const MainPage = ({dataFromApp}) => {
           colors: ["#4a5568"],
           fontSize: "8px",
         },
-        // formatter: (val) => `${val}°C`,
+        formatter: (val) => `${val}°C`,
       },
       stroke: {
         show: true,
@@ -148,6 +161,9 @@ const MainPage = ({dataFromApp}) => {
           formatter: (val) => `${val}°C`,
         },
       },
+      legend: {
+        show: false, 
+      },
     },
   });
 
@@ -162,26 +178,6 @@ const MainPage = ({dataFromApp}) => {
           type: "x",
           scrollable: true,
         },
-        // events: {
-        //   mounted: function (chartContext, config) {
-        //      if (chartContext && chartContext.hideSeries) {
-        //       chartContext.hideSeries("S2");
-        //       chartContext.hideSeries("S3");
-        //       chartContext.hideSeries("S4");
-        //       chartContext.hideSeries("S5");
-        //       chartContext.hideSeries("S6");
-        //       chartContext.hideSeries("S7");
-        //       chartContext.hideSeries("S8");
-        //       chartContext.hideSeries("S9");
-        //       chartContext.hideSeries("S10");
-        //       chartContext.hideSeries("S11");
-        //       chartContext.hideSeries("S12");
-        //       chartContext.hideSeries("S13");
-        //       chartContext.hideSeries("S14");
-        //       chartContext.hideSeries("S15");
-        //      }
-        //   },
-        // },
       },
       xaxis: {
         categories: [],
@@ -200,22 +196,14 @@ const MainPage = ({dataFromApp}) => {
       },
       grid: {
         show: false,
-        // borderColor: "#9CA3AF",
       },
       legend: {
         show: false,
-        // position: "top",
-        // labels: {
-        //   fontSize: "8px",
-        // },
       },
       stroke: {
         curve: "straight",
         width: 1.5,
       },
-      // grid: {
-      //   borderColor: "#4d4d4d",
-      // },
       markers: {
         size: 0,
       },
@@ -236,95 +224,120 @@ const MainPage = ({dataFromApp}) => {
     if (dataFromApp.length > 0) {
       const barCategories = [];
       const barSeries = [];
+      const barColors = [];
 
       Object.keys(dataFromApp[0]).forEach((key) => {
-        if (
-          key !== "createdAt" &&
-          key !== "_id" &&
-          key !== "DeviceName" &&
-          key !== "DeviceTemperature" &&
-          key !== "DeviceBattery" &&
-          key !== "DeviceSignal"
-        ) {
-          barCategories.push(key);
-          barSeries.push(parseFloat(dataFromApp[0][key]));
+        if (viewAllCards === true) {
+          if (
+            key !== "createdAt" &&
+            key !== "_id" &&
+            key !== "DeviceName" &&
+            key !== "DeviceTemperature" &&
+            key !== "DeviceBattery" &&
+            key !== "DeviceSignal"
+          ) {
+            barCategories.push(key);
+            barSeries.push(parseFloat(dataFromApp[0][key]));
+            if (alertKeys.includes(key)) {
+              barColors.push("#FF0000"); 
+            } else {
+              barColors.push("#00FF00"); 
+            }
+          }
+        } else if (viewAllCards === false) {
+          if (
+            key !== "createdAt" &&
+            key !== "_id" &&
+            key !== "DeviceName" &&
+            key !== "DeviceTemperature" &&
+            key !== "DeviceBattery" &&
+            key !== "DeviceSignal" &&
+            key !== "S11" &&
+            key !== "S12" &&
+            key !== "S13" &&
+            key !== "S14" &&
+            key !== "S15"
+          ) {
+            barCategories.push(key);
+            barSeries.push(parseFloat(dataFromApp[0][key]));
+            if (alertKeys.includes(key)) {
+              barColors.push("#FF0000");
+            } else {
+              barColors.push("#00FF00");
+            }
+          }
         }
       });
 
-      // highlight max value bar
-      const colorRange = barSeries.map((value) => ({
-        from: value,
-        to: value,
-        color: value === Math.max(...barSeries) ? "#FF0000" : "#00E396",
-      }));
-
-      const lineCategories = dataFromApp.map((item) =>
-        new Date(item.createdAt).toLocaleString("en-GB")
-      );
+      const lineCategories = dataFromApp
+        .map((item) => new Date(item.createdAt).toLocaleString("en-GB"))
+        .reverse();
       const allSeries = [
         {
           name: "S1",
-          data: dataFromApp.map((item) => item.S1),
+          data: [...dataFromApp.map((item) => item.S1).reverse()],
         },
         {
           name: "S2",
-          data: dataFromApp.map((item) => item.S2),
+          data: [...dataFromApp.map((item) => item.S2).reverse()],
         },
         {
           name: "S3",
-          data: dataFromApp.map((item) => item.S3),
+          data: [...dataFromApp.map((item) => item.S3).reverse()],
         },
         {
           name: "S4",
-          data: dataFromApp.map((item) => item.S4),
+          data: [...dataFromApp.map((item) => item.S4).reverse()],
         },
         {
           name: "S5",
-          data: dataFromApp.map((item) => item.S5),
+          data: [...dataFromApp.map((item) => item.S5).reverse()],
         },
         {
           name: "S6",
-          data: dataFromApp.map((item) => item.S6),
+          data: [...dataFromApp.map((item) => item.S6).reverse()],
         },
         {
           name: "S7",
-          data: dataFromApp.map((item) => item.S7),
+          data: [...dataFromApp.map((item) => item.S7).reverse()],
         },
         {
           name: "S8",
-          data: dataFromApp.map((item) => item.S8),
+          data: [...dataFromApp.map((item) => item.S8).reverse()],
         },
         {
           name: "S9",
-          data: dataFromApp.map((item) => item.S9),
+          data: [...dataFromApp.map((item) => item.S9).reverse()],
         },
         {
           name: "S10",
-          data: dataFromApp.map((item) => item.S10),
+          data: [...dataFromApp.map((item) => item.S10).reverse()],
         },
         {
           name: "S11",
-          data: dataFromApp.map((item) => item.S11),
+          data: [...dataFromApp.map((item) => item.S11).reverse()],
         },
         {
           name: "S12",
-          data: dataFromApp.map((item) => item.S12),
+          data: [...dataFromApp.map((item) => item.S12).reverse()],
         },
         {
           name: "S13",
-          data: dataFromApp.map((item) => item.S13),
+          data: [...dataFromApp.map((item) => item.S13).reverse()],
         },
         {
           name: "S14",
-          data: dataFromApp.map((item) => item.S14),
+          data: [...dataFromApp.map((item) => item.S14).reverse()],
         },
         {
           name: "S15",
-          data: dataFromApp.map((item) => item.S15),
+          data: [...dataFromApp.map((item) => item.S15).reverse()],
         },
       ];
 
-      const lineSeries = allSeries.filter(series => selectedSensors.includes(series.name));
+      const lineSeries = allSeries.filter((series) =>
+        selectedSensors.includes(series.name)
+      );
 
       setBarData({
         series: [
@@ -338,16 +351,7 @@ const MainPage = ({dataFromApp}) => {
           xaxis: {
             categories: barCategories,
           },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: "30%",
-              endingShape: "rounded",
-              colors: {
-                ranges: colorRange,
-              },
-            },
-          },
+          colors: barColors,
         },
       });
 
@@ -382,31 +386,7 @@ const MainPage = ({dataFromApp}) => {
         },
       });
     }
-  }, [dataFromApp, selectedSensors]);
-
-  // alerts array
-  const alertsArray =
-    dataFromApp.length > 0
-      ? Object.entries(dataFromApp[0])
-          .filter(
-            ([key, value]) =>
-              key !== "_id" &&
-              key !== "DeviceName" &&
-              key !== "DeviceTemperature" &&
-              key !== "DeviceBattery" &&
-              key !== "DeviceSignal" &&
-              key !== "createdAt" &&
-              value !== "N/A"
-          )
-          .filter(([key, value]) => value > alertLimitFromLS)
-          .map(([key, value]) => {
-            // console.log("alert key", key);
-            // console.log("value", value);
-            return { key, value };
-          })
-      : [];
-
-  
+  }, [dataFromApp, selectedSensors, viewAllCards]);
 
   return (
     <div className="xl:h-screen text-gray-600 p-4 flex flex-col gap-2 ">
@@ -416,10 +396,10 @@ const MainPage = ({dataFromApp}) => {
       </div>
 
       {/* main content 1 h-[50%] */}
-      <div className="xl:h-[50%] flex flex-col md:flex-row gap-2">
+      <div className="xl:h-[50%] flex flex-col xl:flex-row gap-2">
         {/* 2d image */}
         <div
-          className="w-full md:w-[70%] flex flex-col gap-4 md:gap-2  rounded-xl p-2"
+          className="w-full xl:w-[70%] flex flex-col gap-4 md:gap-2  rounded-xl p-2"
           style={{
             backgroundImage:
               "radial-gradient(circle, #dbf2ff, #d6ebf9, #d1e4f3, #ccdced, #c8d5e7, #c2cfe3, #bdcadf, #afbfdb, #a9bbd9, #a1b4d6, #98b0d4, #90aad1)",
@@ -480,11 +460,13 @@ const MainPage = ({dataFromApp}) => {
                   </div>
                 </div>
               </div>
-              <img
-                src={potline}
-                alt="potline"
-                className="max-w-[250px] md:max-w-[300px] 2xl:max-w-[450px]"
-              />
+              <div className="h-[150px] md:h-auto flex items-center">
+                <img
+                  src={potline}
+                  alt="potline"
+                  className="max-w-[250px] md:max-w-[300px] 2xl:max-w-[450px]"
+                />
+              </div>
               {/* view all cards */}
               <div
                 className="absolute bottom-1 left-1 hover:scale-110 duration-200"
@@ -985,7 +967,7 @@ const MainPage = ({dataFromApp}) => {
 
         {/* alert box */}
         <div
-          className=" rounded-xl w-full md:w-[30%] flex flex-col"
+          className="h-[300px] xl:h-auto rounded-xl w-full xl:w-[30%] flex flex-col"
           style={{
             backgroundImage:
               "radial-gradient(circle, #dbf2ff, #d6ebf9, #d1e4f3, #ccdced, #c8d5e7, #c2cfe3, #bdcadf, #afbfdb, #a9bbd9, #a1b4d6, #98b0d4, #90aad1)",
@@ -1012,9 +994,6 @@ const MainPage = ({dataFromApp}) => {
                 {alertsArray.length}&nbsp;Alerts
                 <FaBell className="2xl:text-lg" />
               </div>
-              {/* <div>
-                <IoTrashOutline className="text-red-600 text-3xl 2xl:text-3xl hover:scale-110 duration-200 cursor-pointer" />
-              </div> */}
             </div>
 
             {alertsArray.length > 0 ? (
@@ -1100,31 +1079,44 @@ const MainPage = ({dataFromApp}) => {
             </button>
           </form>
         </div>
+
+        {/* line chart card */}
         <div
-          className="p-2 w-full md:w-[80%] rounded-md flex"
+          className="p-2 w-full md:w-[80%] md:h-[300px] xl:h-auto rounded-md flex flex-col-reverse gap-2 md:gap-0 md:flex-row"
           style={{
             backgroundImage:
               "radial-gradient(circle, #dbf2ff, #d6ebf9, #d1e4f3, #ccdced, #c8d5e7, #c2cfe3, #bdcadf, #afbfdb, #a9bbd9, #a1b4d6, #98b0d4, #90aad1)",
           }}
         >
-          <div className='grid grid-cols-2 gap-2 text-xs px-2'>
+          <div className="grid grid-cols-8 md:grid-cols-2 gap-2 text-xs px-2">
             {parameters.length > 0 &&
-              parameters.map((key) => 
-              <div key={key} className='flex items-center gap-1 w-10 cursor-pointer' onClick={() => handleLineSelection(key)}>
-                <div className={`h-2 w-2 rounded-full bg-red-500 border border-white ${selectedSensors.includes(key) ? 'bg-green-500' : 'bg-red-500'}`}/>{key}
-              </div>)}
+              parameters.map((key) => (
+                <div
+                  key={key}
+                  className="flex items-center gap-1 w-10 cursor-pointer"
+                  onClick={() => handleLineSelection(key)}
+                >
+                  <div
+                    className={`h-2 w-2 rounded-full bg-red-500 border border-white ${
+                      selectedSensors.includes(key)
+                        ? "bg-green-500"
+                        : "bg-red-500"
+                    }`}
+                  />
+                  {key}
+                </div>
+              ))}
           </div>
 
           <div className="w-full ">
             <ApexCharts
-              className='border border-black '
               options={lineData.options}
               series={lineData.series}
               type="line"
               height="100%"
             />
           </div>
-          <div className="flex flex-col justify-center gap-2 text-sm 2xl:text-base">
+          <div className="flex flex-row flex-wrap md:flex-col justify-center gap-0 md:gap-2 text-sm 2xl:text-base">
             <div className="mr-2 text-center font-medium">Data&nbsp;Limit</div>
             <div className="flex items-center gap-1">
               <input
@@ -1200,4 +1192,4 @@ const MainPage = ({dataFromApp}) => {
   );
 }
 
-export default MainPage
+export default Dashboard;
