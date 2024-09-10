@@ -66,11 +66,11 @@ const App = () => {
   useEffect(() => {
     getHindalcoData();
 
-    // const hindalcoInterval = setInterval(getHindalcoData, 2000);
+    const hindalcoInterval = setInterval(getHindalcoData, 2000);
 
-    // return () => {
-    //   clearInterval(hindalcoInterval);
-    // };
+    return () => {
+      clearInterval(hindalcoInterval);
+    };
   }, []);
 
   // get data api
